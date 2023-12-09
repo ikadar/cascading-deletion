@@ -14,6 +14,9 @@ abstract class EntityRepository implements EntityRepositoryInterface
 
     /**
      * Retrieves the IDs of entities referenced by the entity with the given ID.
+     * Return an array of DeletionTargetInterface objects that reference the entity with the given ID.
+     * The DeletionTargetInterface objects should be created with the referenced entity's repository and the referenced entity's ID.
+     * If there are no referenced entities, return an empty array.
      *
      * @param int $entityId The ID of the entity.
      * @return DeletionTargetInterface[] An array of IDs of the referenced entities.
