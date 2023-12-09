@@ -15,9 +15,10 @@ interface EntityRepositoryInterface {
      * Determines if the entity with the given ID is eligible for deletion.
      *
      * @param DeletionTargetInterface $target
+     * @param DeletionTargetInterface[] $targets An array of DeletionTargetInterface objects that are being deleted.
      * @return DeletionTargetInterface
      */
-    public function setDeletability(DeletionTargetInterface $target): DeletionTargetInterface;
+    public function setDeletability(DeletionTargetInterface $target, array $targets): DeletionTargetInterface;
 
     /**
      * Deletes the entity with the given ID.

@@ -8,7 +8,10 @@ use IKadar\CascadingDeletion\DeletionTarget;
 
 class MockEntityARepository extends EntityRepository {
 
-    public function setDeletability(DeletionTargetInterface $target): DeletionTargetInterface
+    /**
+     * @inheritDoc
+     */
+    public function setDeletability(DeletionTargetInterface $target, array $targets): DeletionTargetInterface
     {
         $target->setIsDeletable(true);
         return $target;
