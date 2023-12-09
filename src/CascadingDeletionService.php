@@ -75,7 +75,7 @@ class CascadingDeletionService
     private function performDeletion(array $deletionTargets): void
     {
         foreach ($deletionTargets as $deletionTarget) {
-            $deletionTarget->getRepository()->performDelete($deletionTarget->getEntityId());
+            $deletionTarget->getRepository()->performDeletion($deletionTarget->getEntityId());
         }
     }
 

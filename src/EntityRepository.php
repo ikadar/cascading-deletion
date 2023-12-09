@@ -34,7 +34,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
      * @param int $entityId The ID of the entity to delete.
      * @return void
      */
-    public function performDelete(int $entityId): void
+    public function performDeletion(int $entityId): void
     {
         // Placeholder logic - override in subclass with actual implementation
         // Example: delete the entity from the database

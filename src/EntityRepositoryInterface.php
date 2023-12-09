@@ -25,7 +25,7 @@ interface EntityRepositoryInterface {
      * @param int $entityId The ID of the entity to delete.
      * @return void
      */
-    public function performDelete(int $entityId): void;
+    public function performDeletion(int $entityId): void;
 
     /**
      * Checks if the entity with the given ID and its dependencies can be deleted.
