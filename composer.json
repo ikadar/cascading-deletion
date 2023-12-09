@@ -1,0 +1,19 @@
+{
+    "name": "i-kadar/cascading-deletion",
+    "description": "Package that provides cascading deletion service",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "IKadar\\CascadingDeletion\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "10.5.x-dev"
+    }
+}
