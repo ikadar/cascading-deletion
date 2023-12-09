@@ -1,8 +1,6 @@
 <?php
 namespace IKadar\CascadingDeletion;
 
-use IKadar\CascadingDeletion\DeletionTargetInterface;
-
 /**
  * CascadingDeletionService handles the deletion of entities within a system,
  * ensuring that both the primary entity and its dependent entities are eligible for deletion.
@@ -22,7 +20,8 @@ class CascadingDeletionService
      * checking their eligibility for deletion, and then, if eligible, performing the deletion.
      *
      * @param DeletionTargetInterface $topTarget The top-level entity target for deletion.
-     */    public function deleteEntity(DeletionTargetInterface $topTarget): void
+     */
+    public function deleteEntity(DeletionTargetInterface $topTarget): void
     {
         // Collects the IDs of all entities to be deleted
         $deletionTargets = $this->collectDeletionTargets($topTarget);
