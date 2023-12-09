@@ -10,12 +10,12 @@ class MockEntityCRepository extends EntityRepository {
     /**
      * @inheritDoc
      */
-    public function setDeletability(DeletionTargetInterface $target, array $targets): DeletionTargetInterface
+    public function checkDeletability(DeletionTargetInterface $target, array $targets): bool
     {
         $target->setIsDeletable(false);
         $target->setMessage("THIS C CAN'T BE DELETED BECAUSE...");
 //        $target->setIsDeletable(true);
-        return $target;
+        return $target->getIsDeletable();
     }
 
     /**

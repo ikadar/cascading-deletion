@@ -14,7 +14,7 @@ interface EntityRepositoryInterface {
     /**
      * Set the isDeletable property of the DeletionTargetInterface object to true or false, depending on whether the entity with the given ID is deletable.
      * Set the message property of the DeletionTargetInterface object to a message explaining why the entity is not deletable.
-     * Return the DeletionTargetInterface object.
+     * Return the isDeletable property of the $target DeletionTargetInterface object.
      *
      * example for a deletable entity:
      * $target->setIsDeletable(true);
@@ -27,9 +27,9 @@ interface EntityRepositoryInterface {
      *
      * @param DeletionTargetInterface $target
      * @param DeletionTargetInterface[] $targets An array of DeletionTargetInterface objects that are being deleted.
-     * @return DeletionTargetInterface
+     * @return bool
      */
-    public function setDeletability(DeletionTargetInterface $target, array $targets): DeletionTargetInterface;
+    public function checkDeletability(DeletionTargetInterface $target, array $targets): bool;
 
     /**
      * Deletes the entity with the given ID.

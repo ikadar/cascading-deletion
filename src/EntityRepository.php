@@ -41,9 +41,9 @@ abstract class EntityRepository implements EntityRepositoryInterface
      *
      * @param DeletionTargetInterface $target
      * @param DeletionTargetInterface[] $targets An array of DeletionTargetInterface objects that are being deleted.
-     * @return DeletionTargetInterface
+     * @return bool
      */
-    abstract public function setDeletability(DeletionTargetInterface $target, array $targets): DeletionTargetInterface;
+    abstract public function checkDeletability(DeletionTargetInterface $target, array $targets): bool;
 
     /**
      * Deletes the entity with the given ID.
@@ -64,14 +64,16 @@ abstract class EntityRepository implements EntityRepositoryInterface
 
     /**
      * Returns an array of DeletionTarget objects, created from the undeletable entities.
+     * The returned array should contain the given DeletionTarget object at the top, followed by the given undeletable entities.
      *
      * @param int $entityId The ID of the entity.
-     * @return DeletionTargetInterface[] Undeletable deletion targets.
+     * @param DeletionTargetInterface[] $deletionTargets Array of entities to be deleted.
+     * @return DeletionTargetInterface[] Stack of undeletable entities in the deletion chain.
      */
     public function getUnDeletableTargets(int $entityId, array $deletionTargets): array
     {
-        $target = $this->setDeletability(new DeletionTarget($entityId, $this), $deletionTargets);
-        if ($target->getIsDeletable() === false) {
+        $target = new DeletionTarget($entityId, $this);
+        if ($this->checkDeletability($target, $deletionTargets) === false) {
             return [$target];
         }
 
