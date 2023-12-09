@@ -92,7 +92,7 @@ class DeletionTarget implements DeletionTargetInterface
      * @param $deletionTargets
      * @return DeletionTargetInterface[]
      */
-    public function getUnDeletableTargets($deletionTargets): array
+    public function getUnDeletableDependencies($deletionTargets): array
     {
         return $this
             ->getRepository()

@@ -46,7 +46,7 @@ class CascadingDeletionService
     private function checkDeletionEligibility(array $deletionTargets, DeletionTargetInterface $topTarget): bool
     {
         foreach ($deletionTargets as $deletionTarget) {
-            $unDeletableTargets = $deletionTarget->getUnDeletableTargets($deletionTargets);
+            $unDeletableTargets = $deletionTarget->getUnDeletableDependencies($deletionTargets);
 
             if ($unDeletableTargets !== []) {
                 $topTarget->setIsDeletable(false);

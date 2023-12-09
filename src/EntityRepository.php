@@ -75,7 +75,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
         $referencedDeletionTargets = $this->getReferencedDeletionTargets($entityId);
         foreach ($referencedDeletionTargets as $referencedDeletionTarget) {
 
-            $unDeletableTargets = $referencedDeletionTarget->getUnDeletableTargets($deletionTargets);
+            $unDeletableTargets = $referencedDeletionTarget->getUnDeletableDependencies($deletionTargets);
 
             if ($unDeletableTargets !== []) {
                 return $this->addTargetToUndeletables($referencedDeletionTarget, $unDeletableTargets);
