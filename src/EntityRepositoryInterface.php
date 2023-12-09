@@ -12,7 +12,18 @@ interface EntityRepositoryInterface {
     public function getReferencedDeletionTargets(int $entityId) :array;
 
     /**
-     * Determines if the entity with the given ID is eligible for deletion.
+     * Set the isDeletable property of the DeletionTargetInterface object to true or false, depending on whether the entity with the given ID is deletable.
+     * Set the message property of the DeletionTargetInterface object to a message explaining why the entity is not deletable.
+     * Return the DeletionTargetInterface object.
+     *
+     * example for a deletable entity:
+     * $target->setIsDeletable(true);
+     *
+     * example for an undeletable entity with the default repository message:
+     * $target->disableDeletion($unDeletableTargets);
+     * or with a custom message:
+     * $target->setMessage("THIS ENTITY CAN'T BE DELETED BECAUSE...");
+     * $target->setIsDeletable(false);
      *
      * @param DeletionTargetInterface $target
      * @param DeletionTargetInterface[] $targets An array of DeletionTargetInterface objects that are being deleted.
