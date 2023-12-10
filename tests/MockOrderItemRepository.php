@@ -34,4 +34,16 @@ class MockOrderItemRepository extends \IKadar\CascadingDeletion\EntityRepository
         $target->setIsDeletable(true);
         return $target->getIsDeletable();
     }
+
+    public function performDeletion(int $entityId): void
+    {
+        // Placeholder logic - override in subclass with actual implementation
+        // Example: delete the entity from the database
+        echo(sprintf(
+            "%s deletes entity with ID %d\n",
+            get_class($this),
+            $entityId
+        ));
+    }
+
 }
