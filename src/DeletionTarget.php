@@ -59,7 +59,7 @@ class DeletionTarget implements DeletionTargetInterface
     /**
      * @param bool $isDeletable
      */
-    public function setIsDeletable(bool $isDeletable): void
+    public function setIsDeletable(?bool $isDeletable): void
     {
         $this->isDeletable = $isDeletable;
     }
