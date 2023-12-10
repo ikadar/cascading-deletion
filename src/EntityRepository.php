@@ -63,11 +63,31 @@ abstract class EntityRepository implements EntityRepositoryInterface
      */
     public function getUnDeletableTargets(int $entityId, array $deletionTargets): array
     {
-        $target = new DeletionTarget($entityId, $this);
-        if ($this->checkDeletability($target, $deletionTargets) === false) {
+        // Check if the entity can be deleted
+        $target = $deletionTargets[$entityId];
+
+        // If the entity already has been checked, it must be deletable,
+        // otherwise execution would not have reached this point, so return an empty array
+        if ($target->isCheckingStarted() === true) {
+            return [];
+        }
+
+        // Check if the entity can be deleted
+        $isDeletable = $this->checkDeletability($target, $deletionTargets);
+        // Mark the entity as checked
+        $target->setCheckingStarted(true);
+        if ($isDeletable === false) {
+            $target->disableDeletion([$target]);
             return [$target];
         }
 
+        // Make sure that isDeletable is null at this point,
+        // so during checking the referenced entities, it won't give a false positive.
+        // This way the dependencies can rely on the isDeletable property
+        // of the parent entity in their checkDeletability method.
+        $target->setIsDeletable(null);
+
+        // Check if all referenced entities can be deleted
         $referencedDeletionTargets = $this->getReferencedDeletionTargets($entityId);
         foreach ($referencedDeletionTargets as $referencedDeletionTarget) {
 
@@ -77,6 +97,10 @@ abstract class EntityRepository implements EntityRepositoryInterface
                 return $this->addTargetToUndeletables($referencedDeletionTarget, $unDeletableTargets);
             }
         }
+
+        // Here we can set the isDeletable property of the entity to true,
+        // because otherwise execution would not have reached this point
+        $target->setIsDeletable(true);
 
         return [];
     }

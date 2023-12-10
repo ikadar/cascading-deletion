@@ -21,6 +21,8 @@ class DeletionTarget implements DeletionTargetInterface
      */
     protected string $message;
 
+    protected bool $checkingStarted = false;
+
     /**
      * @param int $entityId
      * @param EntityRepositoryInterface $repository
@@ -117,4 +119,19 @@ class DeletionTarget implements DeletionTargetInterface
         return $this;
     }
 
+    /**
+     * @param bool $checkingStarted
+     */
+    public function setCheckingStarted(bool $checkingStarted): void
+    {
+        $this->checkingStarted = $checkingStarted;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCheckingStarted(): bool
+    {
+        return $this->checkingStarted;
+    }
 }
