@@ -38,8 +38,7 @@ class MockOrderRepository extends \IKadar\CascadingDeletion\EntityRepository
      */
     public function checkDeletability(DeletionTargetInterface $target, array $targets): bool
     {
-        $target->setIsDeletable(true);
-        return $target->getIsDeletable();
+        return true; // Assuming no further dependencies
     }
 
     public function performDeletion(int $entityId): void
