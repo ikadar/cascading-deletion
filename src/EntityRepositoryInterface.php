@@ -3,27 +3,24 @@
 namespace IKadar\CascadingDeletion;
 
 interface EntityRepositoryInterface {
+
     /**
      * Retrieves the IDs of entities referenced by the entity with the given ID.
+     * Return an array of DeletionTargetInterface objects that reference the entity with the given ID.
+     * The DeletionTargetInterface objects should be created with the referenced entity's repository and the referenced entity's ID.
+     * If there are no referenced entities, return an empty array.
      *
      * @param int $entityId The ID of the entity.
-     * @return int[] An array of IDs of the referenced entities.
+     * @return DeletionTargetInterface[] An array of IDs of the referenced entities.
      */
     public function getReferencedDeletionTargets(int $entityId) :array;
 
     /**
-     * Set the isDeletable property of the DeletionTargetInterface object to true or false, depending on whether the entity with the given ID is deletable.
-     * Set the message property of the DeletionTargetInterface object to a message explaining why the entity is not deletable.
-     * Return the isDeletable property of the $target DeletionTargetInterface object.
-     *
-     * example for a deletable entity:
-     * $target->setIsDeletable(true);
-     *
-     * example for an undeletable entity with the default repository message:
-     * $target->disableDeletion($unDeletableTargets);
-     * or with a custom message:
-     * $target->setMessage("THIS ENTITY CAN'T BE DELETED BECAUSE...");
-     * $target->setIsDeletable(false);
+     * Checks if the entity with the given ID is deletable.
+     * This method must not set the isDeletable property of the DeletionTargetInterface,
+     * because it is called before all referenced entities have been checked.
+     * If the entity is not deletable, it should set the message property of the DeletionTargetInterface.
+     * Return true if the entity is deletable, false otherwise.
      *
      * @param DeletionTargetInterface $target
      * @param DeletionTargetInterface[] $targets An array of DeletionTargetInterface objects that are being deleted.
