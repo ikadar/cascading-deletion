@@ -12,7 +12,7 @@ class MockOrderShippingAddressRepository extends \IKadar\CascadingDeletion\Entit
      */
     public function getReferencedDeletionTargets(int $entityId): array {
         return [
-//            new DeletionTarget($entityId == 14 ? 1 : 2, new MockOrderRepository())
+            new DeletionTarget($entityId == 14 ? 1 : 2, new MockOrderRepository())
         ];
     }
 
