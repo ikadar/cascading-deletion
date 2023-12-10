@@ -20,19 +20,25 @@ class CascadingDeletionService
      * checking their eligibility for deletion, and then, if eligible, performing the deletion.
      *
      * @param DeletionTargetInterface $topTarget The top-level entity target for deletion.
+     * @return array Returns an array with two elements: a boolean indicating if all entities are deletable, and an array of undeletable entities.
      */
-    public function deleteEntity(DeletionTargetInterface $topTarget): void
+    public function deleteEntity(DeletionTargetInterface $topTarget): array
     {
         // Collects the IDs of all entities to be deleted
         $deletionTargets = $this->collectDeletionTargets($topTarget);
 
         // Perform pre-deletion check all collected targets
-        if ($this->checkDeletionEligibility($deletionTargets, $topTarget)) {
+        list($deletionIsAllowed, $unDeletableTargets) =
+            $this->checkDeletionEligibility($deletionTargets, $topTarget);
+
+        if ($deletionIsAllowed === true) {
 
             // Perform deletion on all collected targets
             $this->performDeletion($deletionTargets);
-            echo "All entities deleted successfully.\n";
+            return [true, []];
         }
+
+        return [false, $unDeletableTargets];
     }
 
     /**
@@ -41,9 +47,9 @@ class CascadingDeletionService
      *
      * @param array $deletionTargets Array of entities to be deleted.
      * @param DeletionTargetInterface $topTarget The top-level entity target for deletion.
-     * @return bool Returns true if all entities are deletable, false otherwise.
+     * @return array Returns an array with two elements: a boolean indicating if all entities are deletable, and an array of undeletable entities.
      */
-    private function checkDeletionEligibility(array $deletionTargets, DeletionTargetInterface $topTarget): bool
+    private function checkDeletionEligibility(array $deletionTargets, DeletionTargetInterface $topTarget): array
     {
         foreach ($deletionTargets as $deletionTarget) {
             $unDeletableTargets = $deletionTarget->getUnDeletableDependencies($deletionTargets);
@@ -52,17 +58,10 @@ class CascadingDeletionService
                 $topTarget->setIsDeletable(false);
                 $topTarget->setMessage("Top level message");
                 $unDeletableTargets[] = $topTarget;
-                echo sprintf(
-                    "Deletion of %d from repository %s is not allowed.\n",
-                    $deletionTarget->getEntityId(),
-                    get_class($deletionTarget->getRepository())
-                );
-
-                var_dump($unDeletableTargets);
-                return false;
+                return [false, $unDeletableTargets];
             }
         }
-        return true;
+        return [true, []];
     }
 
     /**

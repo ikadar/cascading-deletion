@@ -24,7 +24,26 @@ class ExampleTest extends TestCase {
 
         $deletionService = new CascadingDeletionService();
 
-        $deletionService->deleteEntity(new DeletionTarget(1, $mockEntityARepository));
+        $deletionTarget = new DeletionTarget(1, $mockEntityARepository);
+        list($success, $undeletables) = $deletionService->deleteEntity($deletionTarget);
+
+        if ($success) {
+            echo "All entities deleted successfully.\n";
+        } else if ($undeletables) {
+
+            echo sprintf(
+                "Deletion of %d from repository %s is not allowed.\n",
+                $deletionTarget->getEntityId(),
+                get_class($deletionTarget->getRepository())
+            );
+
+            var_dump($undeletables);
+
+            foreach ($undeletables as $undeletable) {
+                echo sprintf("%s\n", $undeletable->getMessage());
+            }
+
+        }
 
         $this->assertTrue(true); // Example assertion
     }
