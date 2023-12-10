@@ -89,17 +89,6 @@ MockOrderBillingAddressRepository
 
         $mockOrderRepository = new MockOrderRepository();
 
-        $result = $mockOrderRepository->getReferencedDeletionTargets(1);
-
-//        $this->assertIsArray($result);
-//        $this->assertEquals([
-//                new DeletionTarget(10, new MockEntityB2Repository()),
-//                new DeletionTarget(11, new MockEntityB1Repository()),
-//                new DeletionTarget(12, new MockEntityB2Repository()),
-//            ],
-//            $result
-//        );
-
         $deletionService = new CascadingDeletionService();
 
         $deletionTarget = new DeletionTarget(1, $mockOrderRepository);
