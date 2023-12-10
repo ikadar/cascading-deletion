@@ -38,7 +38,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
      * @param DeletionTargetInterface[] $deletionTargets Array of entities to be deleted.
      * @return DeletionTargetInterface[] Stack of undeletable entities in the deletion chain.
      */
-    public function getUnDeletableTargets(int $entityId, array $deletionTargets): array
+    final public function getUnDeletableTargets(int $entityId, array $deletionTargets): array
     {
         // Check if the entity can be deleted
         $target = $deletionTargets[$entityId];
@@ -96,7 +96,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
      * @param DeletionTargetInterface[] $unDeletableTargets
      * @return DeletionTargetInterface[]
      */
-    protected function addTargetToUndeletables(DeletionTargetInterface $target, array $unDeletableTargets): array
+    final protected function addTargetToUndeletables(DeletionTargetInterface $target, array $unDeletableTargets): array
     {
         $topUnDeletableTarget = $unDeletableTargets[array_key_last($unDeletableTargets)];
         if ($target->getEntityId() !== $topUnDeletableTarget->getEntityId()) {
