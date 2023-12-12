@@ -29,7 +29,7 @@ class CascadingDeletionService
 
         // Perform pre-deletion check all collected targets
         list($deletionIsAllowed, $unDeletableTargets) =
-            $this->checkDeletionEligibility($deletionTargets, $topTarget);
+            $this->checkDeletionEligibility($deletionTargets);
 
         if ($deletionIsAllowed === true) {
 
@@ -46,10 +46,9 @@ class CascadingDeletionService
      * If any entity is found to be undeletable, the process is aborted and a message is output.
      *
      * @param array $deletionTargets Array of entities to be deleted.
-     * @param DeletionTargetInterface $topTarget The top-level entity target for deletion.
      * @return array Returns an array with two elements: a boolean indicating if all entities are deletable, and an array of undeletable entities.
      */
-    private function checkDeletionEligibility(array $deletionTargets, DeletionTargetInterface $topTarget): array
+    private function checkDeletionEligibility(array $deletionTargets): array
     {
         foreach ($deletionTargets as $deletionTarget) {
             $unDeletableTargets = $deletionTarget->getUnDeletableDependencies($deletionTargets);
