@@ -12,6 +12,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
     {
     }
 
+    // Todo: rename it to getDependentTargets
     /**
      * @inheritDoc
      */
@@ -71,7 +72,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
             $unDeletableTargets = $referencedDeletionTarget->getUnDeletableDependencies($deletionTargets);
 
             if ($unDeletableTargets !== []) {
-                return $this->addTargetToUndeletables($referencedDeletionTarget, $unDeletableTargets);
+                return $this->addTargetToUndeletables($target, $unDeletableTargets);
             }
         }
 
@@ -96,7 +97,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
      * @param DeletionTargetInterface[] $unDeletableTargets
      * @return DeletionTargetInterface[]
      */
-    final protected function addTargetToUndeletables(DeletionTargetInterface $target, array $unDeletableTargets): array
+    final protected function addTargetToUndeletables(DeletionTargetInterface $target, array &$unDeletableTargets): array
     {
         $topUnDeletableTarget = $unDeletableTargets[array_key_last($unDeletableTargets)];
         if ($target->getEntityId() !== $topUnDeletableTarget->getEntityId()) {

@@ -55,9 +55,6 @@ class CascadingDeletionService
             $unDeletableTargets = $deletionTarget->getUnDeletableDependencies($deletionTargets);
 
             if ($unDeletableTargets !== []) {
-                $topTarget->setIsDeletable(false);
-                $topTarget->setMessage("Top level message");
-                $unDeletableTargets[] = $topTarget;
                 return [false, $unDeletableTargets];
             }
         }
