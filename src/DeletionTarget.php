@@ -119,6 +119,7 @@ class DeletionTarget implements DeletionTargetInterface
 
         $this->setUnDeletabilityIsInternal($unDeletabilityIsInternal);
         $this->setIsDeletable(false);
+        $this->setMessage($this->getDeletionConstraintMessage($this, $unDeletableTargets));
         return $this;
     }
 
@@ -153,5 +154,21 @@ class DeletionTarget implements DeletionTargetInterface
     {
         $this->unDeletabilityIsInternal = $unDeletabilityIsInternal;
     }
+
+    /**
+     * @param DeletionTargetInterface $target
+     * @param DeletionTargetInterface[] $unDeletableTargets
+     *
+     * @return string
+     */
+    public function getDeletionConstraintMessage(DeletionTargetInterface $target, array $unDeletableTargets): string
+    {
+        if ($target->isUnDeletabilityIsInternal()) {
+            return $target->getMessage();
+        } else {
+            return $target->getRepository()->getExternalUnDeletabilityMessage($target, $unDeletableTargets);
+        }
+    }
+
 
 }

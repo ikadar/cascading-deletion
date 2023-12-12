@@ -85,12 +85,17 @@ abstract class EntityRepository implements EntityRepositoryInterface
     }
 
     /**
+     * @param DeletionTargetInterface $target
      * @param DeletionTargetInterface[] $unDeletableTargets
      * @return string
      */
-    public function getDeletionConstraintMessage(DeletionTargetInterface $target, $unDeletableTargets): string
+    public function getExternalUnDeletabilityMessage(DeletionTargetInterface $target, array $unDeletableTargets): string
     {
-        return sprintf("Middle level message from %s", get_class($this));
+        return sprintf(
+            "Item [%d] can't be deleted because it is referenced by item %d.",
+            $target->getEntityId(),
+            $unDeletableTargets[array_key_last($unDeletableTargets)]->getEntityId()
+        );
     }
 
 }
