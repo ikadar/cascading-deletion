@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use IKadar\CascadingDeletion\DeletionTarget;
 use IKadar\CascadingDeletion\DeletionTargetInterface;
+use IKadar\CascadingDeletion\EntityRepository;
 
-class MockOrderItemJobFileRepository extends \IKadar\CascadingDeletion\EntityRepository
+class MockOrderItemJobFileRepository extends EntityRepository
 {
 
     /**
@@ -21,6 +21,12 @@ class MockOrderItemJobFileRepository extends \IKadar\CascadingDeletion\EntityRep
      */
     public function checkDeletability(DeletionTargetInterface $target, array $targets): bool
     {
+        $target->setMessage(
+            sprintf(
+                "This order item job file [%s] cannot be deleted because rules",
+                $target->getEntityId()
+            )
+        );
         return false; // Assuming no further dependencies
     }
 

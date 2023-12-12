@@ -4,8 +4,9 @@ namespace Tests;
 
 use IKadar\CascadingDeletion\DeletionTarget;
 use IKadar\CascadingDeletion\DeletionTargetInterface;
+use IKadar\CascadingDeletion\EntityRepository;
 
-class MockOrderRepository extends \IKadar\CascadingDeletion\EntityRepository
+class MockOrderRepository extends EntityRepository
 {
 
     /**
