@@ -21,6 +21,9 @@ class DeletionTarget implements DeletionTargetInterface
      */
     protected string $message;
 
+    // Indicate that the cause for undeletability comes from within the entity itself or from a dependency.
+    protected bool $unDeletabilityIsInternal;
+
     protected bool $checkingStarted = false;
 
     /**
@@ -110,11 +113,11 @@ class DeletionTarget implements DeletionTargetInterface
      */
     public function disableDeletion($unDeletableTargets): DeletionTargetInterface
     {
-        $this->setMessage(
-            $this
-                ->getRepository()
-                ->getDeletionConstraintMessage($unDeletableTargets)
-        );
+        // Undeletability is internal if the undeletable entity is the first in the chain
+        $topUndeletableEntity = $unDeletableTargets[array_key_first($unDeletableTargets)];
+        $unDeletabilityIsInternal = ($this->getEntityId() === $topUndeletableEntity->getEntityId());
+
+        $this->setUnDeletabilityIsInternal($unDeletabilityIsInternal);
         $this->setIsDeletable(false);
         return $this;
     }
@@ -134,4 +137,21 @@ class DeletionTarget implements DeletionTargetInterface
     {
         return $this->checkingStarted;
     }
+
+    /**
+     * @return bool
+     */
+    public function isUnDeletabilityIsInternal(): bool
+    {
+        return $this->unDeletabilityIsInternal;
+    }
+
+    /**
+     * @param bool $unDeletabilityIsInternal
+     */
+    public function setUnDeletabilityIsInternal(bool $unDeletabilityIsInternal): void
+    {
+        $this->unDeletabilityIsInternal = $unDeletabilityIsInternal;
+    }
+
 }
