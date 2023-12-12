@@ -45,6 +45,6 @@ interface EntityRepositoryInterface {
      */
     public function getUnDeletableTargets(int $entityId, array $deletionTargets) : array;
 
-    public function getDeletionConstraintMessage(array $unDeletableTargets): string;
+    public function getDeletionConstraintMessage(DeletionTargetInterface $target, array $unDeletableTargets): string;
 
 }

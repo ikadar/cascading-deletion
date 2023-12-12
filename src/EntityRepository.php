@@ -88,7 +88,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
      * @param DeletionTargetInterface[] $unDeletableTargets
      * @return string
      */
-    public function getDeletionConstraintMessage($unDeletableTargets): string
+    public function getDeletionConstraintMessage(DeletionTargetInterface $target, $unDeletableTargets): string
     {
         return sprintf("Middle level message from %s", get_class($this));
     }
