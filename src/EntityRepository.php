@@ -73,6 +73,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
 
             if ($unDeletableTargets !== []) {
                 $unDeletableTargets[] = $target->disableDeletion($unDeletableTargets);
+                return $unDeletableTargets;
             }
         }
 
