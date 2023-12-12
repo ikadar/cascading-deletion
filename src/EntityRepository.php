@@ -72,7 +72,7 @@ abstract class EntityRepository implements EntityRepositoryInterface
             $unDeletableTargets = $referencedDeletionTarget->getUnDeletableDependencies($deletionTargets);
 
             if ($unDeletableTargets !== []) {
-                return $this->addTargetToUndeletables($target, $unDeletableTargets);
+                $unDeletableTargets[] = $target->disableDeletion($unDeletableTargets);
             }
         }
 
@@ -90,20 +90,6 @@ abstract class EntityRepository implements EntityRepositoryInterface
     public function getDeletionConstraintMessage($unDeletableTargets): string
     {
         return sprintf("Middle level message from %s", get_class($this));
-    }
-
-    /**
-     * @param DeletionTargetInterface $target
-     * @param DeletionTargetInterface[] $unDeletableTargets
-     * @return DeletionTargetInterface[]
-     */
-    final protected function addTargetToUndeletables(DeletionTargetInterface $target, array &$unDeletableTargets): array
-    {
-        $topUnDeletableTarget = $unDeletableTargets[array_key_last($unDeletableTargets)];
-        if ($target->getEntityId() !== $topUnDeletableTarget->getEntityId()) {
-            $unDeletableTargets[] = $target->disableDeletion($unDeletableTargets);
-        }
-        return $unDeletableTargets;
     }
 
 }

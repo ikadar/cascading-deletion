@@ -21,7 +21,7 @@ class MockOrderItemJobFileRepository extends \IKadar\CascadingDeletion\EntityRep
      */
     public function checkDeletability(DeletionTargetInterface $target, array $targets): bool
     {
-        return true; // Assuming no further dependencies
+        return false; // Assuming no further dependencies
     }
 
     public function performDeletion(int $entityId): void
