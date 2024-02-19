@@ -2,6 +2,7 @@
     "name": "i-kadar/cascading-deletion",
     "description": "Package that provides cascading deletion service",
     "type": "library",
+    "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
             "IKadar\\CascadingDeletion\\": "src/"
