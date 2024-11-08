@@ -20,9 +20,10 @@ class CascadingDeletionService
      * checking their eligibility for deletion, and then, if eligible, performing the deletion.
      *
      * @param DeletionTargetInterface $topTarget The top-level entity target for deletion.
+     * @param bool $performDeletion If it is false, then actual deletion won't be performed, only checking deletion eligibility.
      * @return array Returns an array with two elements: a boolean indicating if all entities are deletable, and an array of undeletable entities.
      */
-    public function deleteEntity(DeletionTargetInterface $topTarget): array
+    public function deleteEntity(DeletionTargetInterface $topTarget, bool $performDeletion = true): array
     {
         // Collects the IDs of all entities to be deleted
         $deletionTargets = $this->collectDeletionTargets($topTarget);
@@ -34,7 +35,9 @@ class CascadingDeletionService
         if ($deletionIsAllowed === true) {
 
             // Perform deletion on all collected targets
-            $this->performDeletion($deletionTargets);
+            if ($performDeletion) {
+                $this->performDeletion($deletionTargets);
+            }
             return [true, []];
         }
 
